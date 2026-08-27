@@ -1,0 +1,16 @@
+openapi: 3.0.3
+info: { title: Angel Bridge MVP API, version: 0.1.0 }
+servers: [{ url: http://localhost:3000 }]
+paths:
+  /health: { get: { responses: { '200': { description: OK } } } }
+  /ready: { get: { responses: { '200': { description: Ready } } } }
+  /api/home: { get: { parameters: [{ in: query, name: user_id, schema: { type: string } }], responses: { '200': { description: Home aggregate } } } }
+  /api/users: { post: { requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/UserInput' } } } }, responses: { '201': { description: Created } } } }
+  /api/ai/parse-wish: { post: { requestBody: { required: true, content: { application/json: { schema: { type: object, required: [text], properties: { text: { type: string } } } } } }, responses: { '200': { description: Parsed wish } } } }
+  /api/wishes: { post: { responses: { '201': { description: Created } } } }
+  /api/wishes/{wish_id}/matches: { get: { parameters: [{ in: path, name: wish_id, required: true, schema: { type: string } }], responses: { '200': { description: Matches } } } }
+  /api/value-cards: { post: { responses: { '201': { description: Created } } } }
+  /api/feed: { get: { responses: { '200': { description: Feed } } } }
+  /api/connections: { get: { responses: { '200': { description: Connections } } }, post: { responses: { '201': { description: Created } } } }
+  /api/connections/{id}/messages: { get: { responses: { '200': { description: Messages } } }, post: { responses: { '201': { description: Created } } } }
+components: { schemas: { UserInput: { type: object, required: [nickname], properties: { nickname: { type: string }, city: { type: string }, bio: { type: string } } } } }
